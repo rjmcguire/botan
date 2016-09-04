@@ -11,7 +11,7 @@
 module botan.tls.policy;
 
 import botan.constants;
-//static if (BOTAN_HAS_TLS):
+static if (BOTAN_HAS_TLS):
 
 import botan.tls.version_;
 import botan.tls.ciphersuite;
@@ -43,9 +43,9 @@ public:
 				TLSEXT_EXTENDED_MASTER_SECRET,
 				TLSEXT_SESSION_TICKET,
 				TLSEXT_SIGNATURE_ALGORITHMS,
-				TLSEXT_STATUS_REQUEST,
-				TLSEXT_NPN,
-				TLSEXT_SIGNED_CERT_TIMESTAMP,
+				//TLSEXT_STATUS_REQUEST,
+				//TLSEXT_NPN,
+				//TLSEXT_SIGNED_CERT_TIMESTAMP,
 				TLSEXT_ALPN,
 				TLSEXT_CHANNEL_ID,
 				TLSEXT_SRP_IDENTIFIER,

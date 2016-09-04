@@ -153,6 +153,7 @@ public:
     X509Certificate trustRoot() const
     {
         import std.range : back;
+        if (m_cert_path.length == 0) return X509Certificate.init;
         return m_cert_path[].back;
     }
 
@@ -371,6 +372,7 @@ X509Certificate findIssuingCert(in X509Certificate cert_,
 
     foreach (certstore; certstores[])
     {
+
         if (X509Certificate cert = certstore.findCert(issuer_dn, auth_key_id))
             return cert;
     }

@@ -11,7 +11,7 @@
 module botan.tls.messages;
 
 import botan.constants;
-//static if (BOTAN_HAS_TLS):
+static if (BOTAN_HAS_TLS):
 package:
 
 import botan.tls.handshake_state;
@@ -1296,7 +1296,8 @@ public:
         m_cert_key_types = [ "RSA", "DSA", "ECDSA" ];
 		static Vector!( Pair!(string, string)  ) last_supported_algos;
 		static TLSPolicy last_tls_policy;
-		if (policy is last_tls_policy)
+        static TLSProtocolVersion last_version;
+		if (policy is last_tls_policy && _version == last_version)
 			m_supported_algos = last_supported_algos.dup;
 		else {
 			m_supported_algos.reserve(16);
@@ -1310,6 +1311,7 @@ public:
 	                    m_supported_algos.pushBack(makePair(hashes[i], sigs[j]));
 	        }
 			last_tls_policy = cast() policy;
+            last_version = _version;
 			last_supported_algos = m_supported_algos.dup;
 		}
         
@@ -1913,7 +1915,7 @@ final class ChannelID : HandshakeMessage
 
     this(HandshakeIO io, 
          ref HandshakeHash hash,
-         in TLSCredentialsManager creds, 
+         TLSCredentialsManager creds, 
          string hostname, 
          SecureVector!ubyte hs_hash,
          SecureVector!ubyte orig_hs_hash = SecureVector!ubyte())
